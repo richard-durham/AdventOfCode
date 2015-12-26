@@ -1010,6 +1010,9 @@ list_of_words = input.split("\n")
 nice_words = 0
 naughty_words = 0
 count = 0
+vowls = 0
+letters_2x = 0
+naughty_letters = 0
 
 
 def illegal_letters(word):
@@ -1031,26 +1034,42 @@ def three_vowls(word):
 	for char in word:
 		if char in vowls_search:
 			vowls_count += 1
-	if vowls_count > 2:
-		return True
-	else:
-		return False
+	return vowls_count
 
 for word in list_of_words:
 	if illegal_letters(word) == False:
-		if double_letters(word) == True:
-			if three_vowls(word) == True:
-				nice_words += 1
-			else:
-				print "Vowls        %s" %word
-		else:
-			print "double_letters        %s" %word
+		naughty_letters += 1
 	else:
-		print "illegal_letters                %s" %word
-		#print word
-	#else:
-		#naughty_words += 1
-	count += 1
+		naughty_words += 1
+		count += 1
+		print "        Count: %d" %count
+		print "        Illegale letters:  %s" % word
+		continue
+
+	if double_letters(word) == True:
+			letters_2x += 1
+	else:
+		naughty_words += 1
+		count += 1
+		print "        Count: %d" %count
+		print "        No double letters:  %s" % word		
+		continue
+
+	if three_vowls(word) > 2:
+		vowls += 1
+		nice_words += 1
+		count += 1
+		print count
+		print word
+	else:
+		naughty_words += 1
+		count += 1
+		print "        Count: %d" %count
+		print "             # of vowls = %d" % three_vowls(word)
+		print "        Not enough vowls:  %s" % word		
+		#print "double_letters        %s" %word
+		continue
+
 
 
 
@@ -1058,3 +1077,7 @@ for word in list_of_words:
 print "Naughty words: %d" %naughty_words
 print "Nice words: %d" %nice_words
 print "Counter: %d" %count
+print " "
+print "Naughty Letters %d" %naughty_letters
+print "Illegale Letters %d" %letters_2x
+print "Less than 3 vowls %d" %vowls
