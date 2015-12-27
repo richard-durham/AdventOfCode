@@ -1010,7 +1010,7 @@ def day5_part1(text):
     for s in text:
         if 'ab' in s or 'cd' in s or 'pq' in s or 'xy' in s:
             continue
-        if (s.count('a') + s.count('e') + s.count('i') + s.count('o') + s.count('u')) < 3:
+        if sum(s.count(i) for i in 'aeiou') < 3:
             continue
         for i in range(0, len(s)-1):
             if s[i] == s[i+1]:
