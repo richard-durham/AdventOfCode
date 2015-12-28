@@ -1,4 +1,5 @@
-#Advent of Code - day 5 - q2 - reddit
+#Advent of Code - day 5 - q2 - reddit user inokichi
+# I like this code - clean, compact, and readable
 
 import re
 
