@@ -12,8 +12,8 @@ light_grid = [[0 for x in range(5)] for x in range(5)]
 
 #print light_grid
 
-test_line0 = "turn on 1,3 through 3,5"
-test_line1 = "turn on 489,959 through 759,964"
+test_lines = ("turn on 0,0 through 4,3", "turn off 1,1 through 2,1", "toggle 0,0 through 4,4")
+test_line1 = "turn off 1,1 through 2,1"
 test_line2 = "turn off 820,516 through 871,914"
 test_line3 = "toggle 0,314 through 745,49"
 
@@ -35,6 +35,8 @@ def decide_action(instruct_group):
 
 
 def turn_on(start, end):
+	''' turn on grid coordinates
+	'''
 	start_x = int(start[0])
 	start_y = int(start[1])
 	end_x = int(end[0])
@@ -42,21 +44,29 @@ def turn_on(start, end):
 	coord_x = start_x
 	coord_y = start_y
 
-	print start_x, start_y, end_x, end_y
-
-	while coord_x < (end_x + 1):
+	#while coord_x < (end_x + 1):
+	for i in range(end_x + 1):
 		while coord_y < (end_y + 1):
-			light_grid[coord_x][coord_y] == 1
-			coord_x += 1
+			light_grid[coord_x][coord_y] = 1
 			coord_y += 1
+		coord_x += 1
+		coord_y = start_y
 
 
 def turn_off(start, end):
+	'''turn off grid coordinates
+	'''
 	start_x = int(start[0])
 	start_y = int(start[1])
 	end_x = int(end[0])
 	end_y = int(end[1])
 
+	while coord_x < (end_x + 1):
+		while coord_y < (end_y + 1):
+			light_grid[coord_x][coord_y] = 0
+			coord_y += 1
+		coord_x += 1
+		coord_y = start_y
 
 def toggle(start, end):
 	start_x = int(start[0])
@@ -64,7 +74,7 @@ def toggle(start, end):
 	end_x = int(end[0])
 	end_y = int(end[1])
 
-
+'''
 all_instructions = translate_instructions(test_line0)
 action =  decide_action(all_instructions)
 start = all_instructions[1]
@@ -86,12 +96,13 @@ elif action == "Toggle":
 else:
 	print "Houston we have a problem!"
 
+
+print "Result"
 for j in range(5):
 	print light_grid[j]
-
-
 '''
-for instruction in list_of_instructions:
+
+for instruction in test_lines:
 	#print decide_action(translate_instructions(instruction))
 	all_instructions = translate_instructions(instruction)
 	action =  decide_action(all_instructions)
@@ -113,4 +124,3 @@ for instruction in list_of_instructions:
 		toggle(start,end)
 	else:
 		print "Houston we have a problem!"
-'''
