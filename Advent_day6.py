@@ -8,7 +8,7 @@ import re
 with open('day6.txt', 'r') as raw_instructions:
 	list_of_instructions = raw_instructions.readlines()
 
-light_grid = [[0 for x in range(5)] for x in range(5)]
+light_grid = [[0 for x in range(1000)] for x in range(1000)]
 
 #print light_grid
 
@@ -89,7 +89,7 @@ def toggle(start, end):
 		coord_y = start_y
 
 def print_lights():
-	for i in range(5):
+	for i in range(1000):
 		print light_grid[i]
 
 def count_lights():
@@ -128,7 +128,7 @@ for j in range(5):
 	print light_grid[j]
 '''
 
-for instruction in test_lines:
+for instruction in list_of_instructions:
 	#print decide_action(translate_instructions(instruction))
 	all_instructions = translate_instructions(instruction)
 	action =  decide_action(all_instructions)
@@ -136,21 +136,18 @@ for instruction in test_lines:
 	end = all_instructions[2]
 
 	print "Action to take: %s" % action
-	print "    Start at:"
-	print int(start[0]), int(start[1])
-	print "        Stop at:"
-	print int(end[0]), int(end[1])
+	print "Start at: ", int(start[0]), int(start[1]), " Stop at:", int(end[0]), int(end[1])
 
 
 	if action == "On":
 		turn_on(start,end)
-		print_lights()
+		#print_lights()
 	elif action == "Off":
 		turn_off(start,end)
-		print_lights()
+		#print_lights()
 	elif action == "Toggle":
 		toggle(start,end)
-		print_lights()
+		#print_lights()
 	else:
 		print "Houston we have a problem!"
 
