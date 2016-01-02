@@ -60,8 +60,10 @@ def turn_off(start, end):
 	start_y = int(start[1])
 	end_x = int(end[0])
 	end_y = int(end[1])
+	coord_x = start_x
+	coord_y = start_y
 
-	while coord_x < (end_x + 1):
+	for i in range(end_x + 1):
 		while coord_y < (end_y + 1):
 			light_grid[coord_x][coord_y] = 0
 			coord_y += 1
@@ -73,6 +75,30 @@ def toggle(start, end):
 	start_y = int(start[1])
 	end_x = int(end[0])
 	end_y = int(end[1])
+	coord_x = start_x
+	coord_y = start_y
+
+	for i in range(end_x + 1):
+		while coord_y < (end_y + 1):
+			if light_grid[coord_x][coord_y] == 0:
+				light_grid[coord_x][coord_y] = 1
+			else:
+				light_grid[coord_x][coord_y] = 0
+			coord_y += 1
+		coord_x += 1
+		coord_y = start_y
+
+def print_lights():
+	for i in range(5):
+		print light_grid[i]
+
+def count_lights():
+	count = 0
+	for row in light_grid:
+		count += row.count(1)
+	return count
+
+
 
 '''
 all_instructions = translate_instructions(test_line0)
@@ -118,9 +144,15 @@ for instruction in test_lines:
 
 	if action == "On":
 		turn_on(start,end)
+		print_lights()
 	elif action == "Off":
 		turn_off(start,end)
+		print_lights()
 	elif action == "Toggle":
 		toggle(start,end)
+		print_lights()
 	else:
 		print "Houston we have a problem!"
+
+print "# of lights on: ", count_lights()
+
