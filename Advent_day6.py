@@ -4,18 +4,21 @@
 '''
 
 import re
+import numpy as np 
+
+grid_size = 1000
 
 with open('day6.txt', 'r') as raw_instructions:
 	list_of_instructions = raw_instructions.readlines()
 
-light_grid = [[0 for x in range(1000)] for x in range(1000)]
+light_grid = [[0 for x in range(grid_size)] for x in range(grid_size)]
 
-#print light_grid
+'''
+for testing
+'''
+test_lines = ("turn on 489,959 through 759,964", "turn off 820,516 through 871,914", "toggle 120,314 through 745,489")
+test_lines1 = ("turn on 0,0 through 3,4", "turn off 1,0 through 1,4", "toggle 1,3 through 4,4")
 
-test_lines = ("turn on 0,0 through 4,3", "turn off 1,1 through 2,1", "toggle 0,0 through 4,4")
-test_line1 = "turn off 1,1 through 2,1"
-test_line2 = "turn off 820,516 through 871,914"
-test_line3 = "toggle 0,314 through 745,49"
 
 def translate_instructions(instructions):
 	key_data = re.match(r"([^0-9]+)([0-9]+).([0-9]+)[^0-9]+([0-9]+).([0-9]+)", instructions)
@@ -41,16 +44,10 @@ def turn_on(start, end):
 	start_y = int(start[1])
 	end_x = int(end[0])
 	end_y = int(end[1])
-	coord_x = start_x
-	coord_y = start_y
 
-	#while coord_x < (end_x + 1):
-	for i in range(end_x + 1):
-		while coord_y < (end_y + 1):
-			light_grid[coord_x][coord_y] = 1
-			coord_y += 1
-		coord_x += 1
-		coord_y = start_y
+	for row in range(start_x, end_x + 1):
+		for column in range(start_y, end_y + 1):
+			light_grid[row][column] = 1
 
 
 def turn_off(start, end):
@@ -60,36 +57,32 @@ def turn_off(start, end):
 	start_y = int(start[1])
 	end_x = int(end[0])
 	end_y = int(end[1])
-	coord_x = start_x
-	coord_y = start_y
 
-	for i in range(end_x + 1):
-		while coord_y < (end_y + 1):
-			light_grid[coord_x][coord_y] = 0
-			coord_y += 1
-		coord_x += 1
-		coord_y = start_y
+	for row in range(start_x, end_x + 1):
+		for column in range(start_y, end_y + 1):
+			light_grid[row][column] = 0
+			#print row, column, "set to: ", light_grid[row][column]
+
 
 def toggle(start, end):
+	'''if off turn on, else turn off
+	'''
 	start_x = int(start[0])
 	start_y = int(start[1])
 	end_x = int(end[0])
 	end_y = int(end[1])
-	coord_x = start_x
-	coord_y = start_y
 
-	for i in range(end_x + 1):
-		while coord_y < (end_y + 1):
-			if light_grid[coord_x][coord_y] == 0:
-				light_grid[coord_x][coord_y] = 1
+	for row in range(start_x, end_x + 1):
+		for column in range(start_y, end_y + 1):
+			if light_grid[row][column] == 0:
+				light_grid[row][column] = 1
 			else:
-				light_grid[coord_x][coord_y] = 0
-			coord_y += 1
-		coord_x += 1
-		coord_y = start_y
+				light_grid[row][column] = 0
+			#print row, column, "set to: ", light_grid[row][column]
+
 
 def print_lights():
-	for i in range(1000):
+	for i in range(grid_size):
 		print light_grid[i]
 
 def count_lights():
@@ -128,6 +121,7 @@ for j in range(5):
 	print light_grid[j]
 '''
 
+
 for instruction in list_of_instructions:
 	#print decide_action(translate_instructions(instruction))
 	all_instructions = translate_instructions(instruction)
@@ -152,4 +146,6 @@ for instruction in list_of_instructions:
 		print "Houston we have a problem!"
 
 print "# of lights on: ", count_lights()
+
+
 
