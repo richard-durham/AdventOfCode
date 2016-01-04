@@ -6,7 +6,7 @@
 import re
 import numpy as np 
 
-grid_size = 5
+grid_size = 1000
 
 with open('day6.txt', 'r') as raw_instructions:
 	list_of_instructions = raw_instructions.readlines()
@@ -141,7 +141,7 @@ def determine_brightness():
 	return sum(map(sum, brightness_grid))
 
 
-for instruction in test_lines1:
+for instruction in list_of_instructions:
 	'''Day 6 - question 1 sequence
 	'''
 
@@ -162,12 +162,15 @@ for instruction in test_lines1:
 	else:
 		print "Houston we have a problem!"
 
-print_lights(light_grid)
+#print_lights(light_grid)
 print "# of lights on: ", count_lights()
 
 
-for instruction in test_lines1:
+for instruction in list_of_instructions:
 	'''Day 6 - question 2 sequence
+
+	Answer of 17325717 is too low
+	
 	'''
 	all_instructions = translate_instructions(instruction)
 	action =  decide_action(all_instructions)
@@ -186,7 +189,7 @@ for instruction in test_lines1:
 	else:
 		print "Houston we have a problem!"
 
-print_lights(brightness_grid)
+#print_lights(brightness_grid)
 print "Brightness of lights: ", determine_brightness()
 
 
