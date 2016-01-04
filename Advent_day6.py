@@ -6,12 +6,14 @@
 import re
 import numpy as np 
 
-grid_size = 1000
+grid_size = 5
 
 with open('day6.txt', 'r') as raw_instructions:
 	list_of_instructions = raw_instructions.readlines()
 
+#initialize arrays (list of lists) for each question
 light_grid = [[0 for x in range(grid_size)] for x in range(grid_size)]
+brightness_grid = [[0 for x in range(grid_size)] for x in range(grid_size)]
 
 '''
 for testing
@@ -81,9 +83,52 @@ def toggle(start, end):
 			#print row, column, "set to: ", light_grid[row][column]
 
 
-def print_lights():
-	for i in range(grid_size):
-		print light_grid[i]
+def increase_one(start, end):
+	'''increase value by one
+	'''
+	start_x = int(start[0])
+	start_y = int(start[1])
+	end_x = int(end[0])
+	end_y = int(end[1])
+
+	for row in range(start_x, end_x + 1):
+		for column in range(start_y, end_y + 1):
+			brightness_grid[row][column] += 1
+
+
+def decrease_one(start, end):
+	'''decrease value by one
+	but no lower than zero
+	'''
+	start_x = int(start[0])
+	start_y = int(start[1])
+	end_x = int(end[0])
+	end_y = int(end[1])
+
+	for row in range(start_x, end_x + 1):
+		for column in range(start_y, end_y + 1):
+			brightness_grid[row][column] -= 1
+			if brightness_grid[row][column] < 0:
+				brightness_grid[row][column] == 0
+
+
+def increase_two(start, end):
+	'''increase value by two for Toggle
+	'''
+	start_x = int(start[0])
+	start_y = int(start[1])
+	end_x = int(end[0])
+	end_y = int(end[1])
+
+	for row in range(start_x, end_x + 1):
+		for column in range(start_y, end_y + 1):
+			brightness_grid[row][column] += 2
+
+
+def print_lights(lights):
+	for i in range(len(lights)):
+		print lights[i]
+
 
 def count_lights():
 	count = 0
@@ -92,46 +137,18 @@ def count_lights():
 	return count
 
 
-
-'''
-all_instructions = translate_instructions(test_line0)
-action =  decide_action(all_instructions)
-start = all_instructions[1]
-end = all_instructions[2]
-
-print action
-print start
-print end
-
-for i in range(5):
-	print light_grid[i]
-
-if action == "On":
-	turn_on(start,end)
-elif action == "Off":
-	turn_off(start,end)
-elif action == "Toggle":
-	toggle(start,end)
-else:
-	print "Houston we have a problem!"
+def determine_brightness():
+	return sum(map(sum, brightness_grid))
 
 
-print "Result"
-for j in range(5):
-	print light_grid[j]
-'''
+for instruction in test_lines1:
+	'''Day 6 - question 1 sequence
+	'''
 
-
-for instruction in list_of_instructions:
-	#print decide_action(translate_instructions(instruction))
 	all_instructions = translate_instructions(instruction)
 	action =  decide_action(all_instructions)
 	start = all_instructions[1]
 	end = all_instructions[2]
-
-	print "Action to take: %s" % action
-	print "Start at: ", int(start[0]), int(start[1]), " Stop at:", int(end[0]), int(end[1])
-
 
 	if action == "On":
 		turn_on(start,end)
@@ -145,7 +162,33 @@ for instruction in list_of_instructions:
 	else:
 		print "Houston we have a problem!"
 
+print_lights(light_grid)
 print "# of lights on: ", count_lights()
+
+
+for instruction in test_lines1:
+	'''Day 6 - question 2 sequence
+	'''
+	all_instructions = translate_instructions(instruction)
+	action =  decide_action(all_instructions)
+	start = all_instructions[1]
+	end = all_instructions[2]
+
+	if action == "On":
+		increase_one(start,end)
+		#print_lights()
+	elif action == "Off":
+		decrease_one(start,end)
+		#print_lights()
+	elif action == "Toggle":
+		increase_two(start,end)
+		#print_lights()
+	else:
+		print "Houston we have a problem!"
+
+print_lights(brightness_grid)
+print "Brightness of lights: ", determine_brightness()
+
 
 
 
