@@ -3,6 +3,10 @@
 '''Advent of Code - day 10 
 '''
 
+# answer for 40 runs is 360154
+
+# answer for 50 runs is 5103798
+
 from itertools import groupby
 
 input_string = "111312213"
@@ -31,13 +35,11 @@ def say(next_list):
 
 
 #now for the time consuming part
-for turn in range(40):
+for turn in range(50):
 	next_list = say(look(current_list))
 	current_list = next_list
 
 	print "Turn: ", turn + 1
 	print len(next_list)
-
-
 
 
